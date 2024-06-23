@@ -37,7 +37,7 @@ function setupModifiers()
 	//
 	//these are written in glsl NOT haxe
 	//the syntax is similar but closer to c++
-	//remember to ALWAYS put .0 on every float, otherwise the shader may not work on certain GPUs!
+	//remember to ALWAYS put .0 on every float that doesnt already have a decimal, otherwise the shader may not work on certain GPUs!
 	//
 	//modifier variable list:
 	//	x				- X position
