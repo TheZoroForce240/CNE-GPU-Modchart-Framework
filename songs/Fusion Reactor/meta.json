@@ -1,0 +1,16 @@
+{
+	"beatsPerMeasure": 4,
+	"opponentModeAllowed": true,
+	"coopAllowed": true,
+	"stepsPerBeat": 4,
+	"bpm": 200,
+	"difficulties": [
+		"super"
+	],
+	"needsVoices": true,
+	"parsedColor": -1466112,
+	"displayName": "Fusion Reactor",
+	"icon": "Icon",
+	"name": "Fusion Reactor",
+	"color": "#E9A100"
+}
