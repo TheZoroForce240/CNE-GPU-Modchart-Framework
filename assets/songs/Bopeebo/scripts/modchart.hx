@@ -182,9 +182,8 @@ function setupModifiers()
 	", -1, -1, 1.0);
 
 
-	//use drunkSpeed as a subvalue, make sure its above the modifier its being used in
+	//use drunkSpeed as a subvalue
 	createModifier("drunkSpeed", 3.0, "", -1, -1, 0.0, false);
-
 	createModifier("drunk", 1.0, "
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
 			(curPos*0.45)*0.013) * (drunkSpeed_value*0.2)) * 112*0.5 * drunk_value;
@@ -253,6 +252,12 @@ function setupModifiers()
 	{
 		eye[2] = mod[MOD_VALUE];
 	}, -1, -1, 0.0, false, MOD_TYPE_CUSTOM);
+
+
+
+	createModifier("flash", 1.0, "
+		color.rgb = mix(color.rgb, vec3(1.0, 1.0, 1.0), flash_value) * color.a;
+	", -1, -1, 0.0, true, MOD_TYPE_FRAG);
 	
 	
 }

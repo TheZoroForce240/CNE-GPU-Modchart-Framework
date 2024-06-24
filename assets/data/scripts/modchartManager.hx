@@ -99,6 +99,7 @@ public var MOD_TYPE = 8;
 
 public var MOD_TYPE_NOTE = 0; //updates for each note/strum
 public var MOD_TYPE_CUSTOM = 1; //updates once per frame
+public var MOD_TYPE_FRAG = 2;
 
 public var modEvents:Array<Dynamic> = [];
 public var EVENT_TIME = 0;
@@ -171,6 +172,9 @@ function postUpdate(elapsed)
 			strum.shader.data.noteCurPos.value = [0.0, 0.0, 0.0, 0.0];
 			strum.shader.scrollSpeed = 0.0;
 
+			if (strum.frame != null)
+				strum.shader.frameUV = [strum.frame.uv.x,strum.frame.uv.y,strum.frame.uv.width,strum.frame.uv.height];
+
 
 			//calculate screen position for rotation and scaling inside shader
 			var point = FlxPoint.weak();
@@ -203,8 +207,9 @@ function postUpdate(elapsed)
 			n.shader.downscroll = downscroll;
 			n.shader.isSustainNote = n.isSustainNote;
 			//if (n.isSustainNote)
-				//if (n.frame != null)
-					//n.shader.sustainFrameUV = [n.frame.uv.x,n.frame.uv.y,n.frame.uv.width,n.frame.uv.height];
+
+			if (n.frame != null)
+				n.shader.frameUV = [n.frame.uv.x,n.frame.uv.y,n.frame.uv.width,n.frame.uv.height];
 
 			var curPos = Conductor.songPosition - n.strumTime;
 			var nextCurPos = curPos;
@@ -369,8 +374,11 @@ public function generateShaderCode()
 		modShaderFragTable.push([]);
 		for (i in 0...modchartManagerKeyCount)
 		{
-			var modifierUniformsCode = "";
-			var modifierFunctionsCode = "";
+			var modifierUniformsVertCode = "";
+			var modifierFunctionsVertCode = "";
+
+			var modifierUniformsFragCode = "";
+			var modifierFunctionsFragCode = "";
 
 			modShaderVertTable[p].push(vertCode);
 			modShaderFragTable[p].push(fragCode);
@@ -379,7 +387,7 @@ public function generateShaderCode()
 				if (mod[MOD_TYPE] == MOD_TYPE_NOTE)
 				{
 					//declare uniform
-					modifierUniformsCode += "uniform float " + mod[MOD_NAME] + "_value;\n";
+					modifierUniformsVertCode += "uniform float " + mod[MOD_NAME] + "_value;\n";
 
 					//add modifier code
 					if (mod[MOD_AUTODISABLE])
@@ -388,23 +396,45 @@ public function generateShaderCode()
 						if (!StringTools.contains(defaultValue, "."))
 							defaultValue += ".0"; //make sure it has a decimal so the shader knows its a float
 			
-						modifierFunctionsCode += "if (" + mod[MOD_NAME] + "_value != " + (defaultValue) + ")";
-						modifierFunctionsCode += "{";
-						modifierFunctionsCode += mod[MOD_FUNC];
-						modifierFunctionsCode += "}";
+						modifierFunctionsVertCode += "if (" + mod[MOD_NAME] + "_value != " + (defaultValue) + ")";
+						modifierFunctionsVertCode += "{";
+						modifierFunctionsVertCode += mod[MOD_FUNC];
+						modifierFunctionsVertCode += "}";
 					}
 					else
 					{
-						modifierFunctionsCode += mod[MOD_FUNC];
+						modifierFunctionsVertCode += mod[MOD_FUNC];
 					}
 				}
+				else if (mod[MOD_TYPE] == MOD_TYPE_FRAG)
+				{
+					//declare uniform
+					modifierUniformsFragCode += "uniform float " + mod[MOD_NAME] + "_value;\n";
 
-
-
+					//add modifier code
+					if (mod[MOD_AUTODISABLE])
+					{
+						var defaultValue = mod[MOD_DEFAULTVALUE];
+						if (!StringTools.contains(defaultValue, "."))
+							defaultValue += ".0"; //make sure it has a decimal so the shader knows its a float
+			
+						modifierFunctionsFragCode += "if (" + mod[MOD_NAME] + "_value != " + (defaultValue) + ")";
+						modifierFunctionsFragCode += "{";
+						modifierFunctionsFragCode += mod[MOD_FUNC];
+						modifierFunctionsFragCode += "}";
+					}
+					else
+					{
+						modifierFunctionsFragCode += mod[MOD_FUNC];
+					}
+				}
 			}
 			//add modifier code into shader
-			modShaderVertTable[p][i] = StringTools.replace(modShaderVertTable[p][i], "#pragma modifierUniforms", modifierUniformsCode);
-			modShaderVertTable[p][i] = StringTools.replace(modShaderVertTable[p][i], "#pragma modifierFunctions", modifierFunctionsCode);
+			modShaderVertTable[p][i] = StringTools.replace(modShaderVertTable[p][i], "#pragma modifierUniforms", modifierUniformsVertCode);
+			modShaderVertTable[p][i] = StringTools.replace(modShaderVertTable[p][i], "#pragma modifierFunctions", modifierFunctionsVertCode);
+
+			modShaderFragTable[p][i] = StringTools.replace(modShaderFragTable[p][i], "#pragma modifierUniforms", modifierUniformsFragCode);
+			modShaderFragTable[p][i] = StringTools.replace(modShaderFragTable[p][i], "#pragma modifierFunctions", modifierFunctionsFragCode);
 		}
 	}
 }
