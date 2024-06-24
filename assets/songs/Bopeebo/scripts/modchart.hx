@@ -255,7 +255,7 @@ function setupModifiers()
 
 
 
-	createModifier("flash", 1.0, "
+	createModifier("flash", 0.0, "
 		color.rgb = mix(color.rgb, vec3(1.0, 1.0, 1.0), flash_value) * color.a;
 	", -1, -1, 0.0, true, MOD_TYPE_FRAG);
 	
