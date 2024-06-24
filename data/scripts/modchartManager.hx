@@ -1,7 +1,6 @@
 //
 
-
-
+import haxe.Timer;
 
 
 ///////////3D Matrix stuff//////////////////////////////
@@ -117,10 +116,25 @@ var initialized = false;
 
 public var modchartManagerKeyCount:Int = 4;
 
+/*
+var debugStuff = true;
+var updateTS:Float = 0.0;
+var drawTS:Float = 0.0;
+var drawTime:Float = 0.0;
+var debugText:FlxText = null;
+*/
+
 function postUpdate(elapsed)
 {
 	if (!initialized)
 		return;
+
+	/*
+	if (debugStuff)
+	{
+		updateTS = Timer.stamp();
+	}
+	*/
 
 	//check events
 	while(modEvents.length > 0 && modEvents[0][EVENT_TIME] <= Conductor.songPosition)
@@ -137,6 +151,8 @@ function postUpdate(elapsed)
 
 		modEvents.remove(modEvents[0]);
 	}
+
+
 
 
 	updateModifers();
@@ -166,11 +182,16 @@ function postUpdate(elapsed)
 			strum.shader.downscroll = downscroll;
 			strum.shader.isSustainNote = false;
 
+			
+			//honestly i have no idea how these are updating the notes as well
+			//they should have completely seperate shaders???
+			//maybe something with cne runtime shaders idk
 			for (mod in modTable[p.ID][strum.ID])
 			{
 				var shit = Reflect.getProperty(strum.shader.data, mod[MOD_NAME] + "_value");
 				Reflect.setProperty(shit, "value", [mod[MOD_VALUE]]);
 			}
+			
 
 		});
 
@@ -216,15 +237,37 @@ function postUpdate(elapsed)
 			n.shader.strumLineID = p.ID;
 			n.shader.data.noteCurPos.value = [curPos, curPos, nextCurPos, nextCurPos];
 			n.shader.scrollSpeed = strumLines.members[p.ID].members[n.strumID].getScrollSpeed(n);
-
+			/*
 			for (mod in modTable[p.ID][n.strumID]) //update modifier values on shader
 			{
 				var shit = Reflect.getProperty(n.shader.data, mod[MOD_NAME] + "_value");
 				Reflect.setProperty(shit, "value", [mod[MOD_VALUE]]);
 			}
+			*/
 		});
 	}
+
+	/*
+	if (debugStuff)
+	{
+		var newStamp = Timer.stamp();
+		debugText.text = "Update: " + FlxMath.roundDecimal((newStamp-updateTS) * 1000.0, 2) +"ms" + "\n" + "Draw: " + FlxMath.roundDecimal(drawTime * 1000.0, 2) +"ms";
+	}
+	*/
 }
+/*
+function draw(event)
+{
+	drawTS = Timer.stamp();
+}
+function postDraw(event)
+{
+	var newStamp = Timer.stamp();
+	drawTime = newStamp-drawTS;
+}
+*/
+
+
 
 function reconstructModTable()
 {
@@ -294,6 +337,16 @@ public function initModchart()
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
 			(curPos*0.45)*0.013) * (5.0*0.2)) * 112*0.5 * drunk_value;
 	", 0);*/
+
+	/*
+	if(debugStuff)
+	{
+		debugText = new FlxText(0, 0, 0, "Test");
+		debugText.size = 48;
+		debugText.cameras = [camHUD];
+		add(debugText);
+	}
+	*/
 
 
 	
