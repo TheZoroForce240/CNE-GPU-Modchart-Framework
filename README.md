@@ -59,6 +59,11 @@ createModifier("hudAngle", 0, function(mod)
     camHUD.angle = mod[MOD_VALUE];
 }, -1, -1, 0.0, false, MOD_TYPE_CUSTOM);
 
+//Frag Shader modifier
+createModifier("flash", 0.0, "
+    color.rgb = mix(color.rgb, vec3(1.0, 1.0, 1.0), flash_value) * color.a;
+", -1, -1, 0.0, true, MOD_TYPE_FRAG);
+
 ```
 
 Setting up Events
