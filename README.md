@@ -89,4 +89,4 @@ set(10,"
 
 You can check the songs folder for some examples if you're unsure
 
-Check [here](https://github.com/TheZoroForce240/CNE-GPU-Modchart-Framework/blob/main/assets/songs/Bopeebo/scripts/modchart.hx) for a basic modchart template with everything you should need to know inside
+Check [here](https://github.com/TheZoroForce240/CNE-GPU-Modchart-Framework/blob/main/assets/data/scripts/modchartTemplate.hx) for a basic modchart template with everything you should need to know inside
