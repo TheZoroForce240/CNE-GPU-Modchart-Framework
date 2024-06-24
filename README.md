@@ -4,7 +4,7 @@ This is a mod/script for [Codename Engine](https://github.com/FNF-CNE-Devs/Coden
 
 Using the GPU instead of the CPU for the modifier math means that this should give better performance (unless you have a bad GPU lol), with a lot of extra customizability that would not have been possible otherwise since it gives direct access to individual vertices.
 
-
+ ![](https://github.com/TheZoroForce240/CNE-GPU-Modchart-Framework/blob/main/github/example.gif)
 
 ## Features
 - 3D positioning and rotation of notes, with a basic 3D camera
@@ -13,7 +13,8 @@ Using the GPU instead of the CPU for the modifier math means that this should gi
 
 ## Getting Started
 
-Start by copying the data and shaders folders into your CNE mod or assets folder
+Start by copying the assets folder into your CNE mod or assets folder 
+(You don't need to include the songs folder since it just contains examples)
 
 Then, inside of your own script, setup something like this:
 ```haxe
@@ -86,6 +87,6 @@ set(10,"
 
 
 
-There are a few examples of modcharts inside the songs folder
+You can check the songs folder for some examples if you're unsure
 
-Check [here](https://github.com/TheZoroForce240/CNE-GPU-Modchart-Framework/blob/main/songs/Bopeebo/scripts/modchart.hx) for a basic guide to setting up a modchart
+Check [here](https://github.com/TheZoroForce240/CNE-GPU-Modchart-Framework/blob/main/assets/songs/Bopeebo/scripts/modchart.hx) for a basic modchart template with everything you should need to know inside
