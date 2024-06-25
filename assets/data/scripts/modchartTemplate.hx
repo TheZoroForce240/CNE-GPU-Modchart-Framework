@@ -152,7 +152,7 @@ function setupModifiers()
 			float evenBeat = mod(floor(fBeat), 2.0);
 
 			fBeat -= floor(fBeat);
-			fBeat += 1;
+			fBeat += 1.0;
 			fBeat -= floor(fBeat);
 
 			if (fBeat < fTotalTime)
@@ -170,7 +170,7 @@ function setupModifiers()
 				}
 
 				if (evenBeat != 0.0)
-					fAmount *= -1;
+					fAmount *= -1.0;
 
 				x += 20.0 * fAmount * sin((curPos * 0.01) + (PI * 0.5)) * beat_value;
 			}
