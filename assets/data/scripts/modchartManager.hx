@@ -368,6 +368,61 @@ public function generateShaderCode()
 	modShaderVertTable = [];
 	modShaderFragTable = [];
 
+	var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+	var operators = ["+", "-", "*", "/", "(", ")", "="];
+	var warnings = "";
+	for (mod in modifiers)
+	{
+		if (mod[MOD_TYPE] == MOD_TYPE_NOTE || mod[MOD_TYPE] == MOD_TYPE_FRAG)
+		{
+			var foundBadNumber = false;
+			var searching = false;
+
+			var data:String = mod[MOD_FUNC];
+			for (i in 0...data.length) //loop through every character
+			{
+				if (operators.contains(data.charAt(i))) //if its an operator then there could be a number afterwards
+				{
+					searching = true;
+				}
+
+				var number = data.charAt(i);
+					
+				if (numbers.contains(data.charAt(i)) && searching) //there is a number so lets check
+				{
+					var bad = true;
+					while(true)
+					{
+						i++; //check next number
+						if (numbers.contains(data.charAt(i)) || data.charAt(i) == ".") //if its a number or . then continue
+						{
+							number += data.charAt(i);
+							if (data.charAt(i) == ".")
+							{
+								bad = false; //if the number contains a . then its all good
+							}
+						}
+						else //break if not a number or .
+						{
+							searching = false;
+							break;
+						}
+					}
+
+					if (bad) //add to warnings since its bad
+					{
+						warnings += "\nWARNING: found bad number '" + number + "' in Modifier '" + mod[MOD_NAME] + "'\nIf this is intentional then ignore, otherwise add .0!\n";
+					}
+				}
+				else if (!operators.contains(data.charAt(i)) && data.charAt(i) != " ") //not a number or operator so reset, but ignore spaces
+					searching = false;
+			}
+		}
+	}
+
+	if (warnings != "")
+		trace(warnings);
+
 	for(p in 0...PlayState.SONG.strumLines.length) //generate shader code for each strum lane
 	{
 		modShaderVertTable.push([]);

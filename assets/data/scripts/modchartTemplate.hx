@@ -186,14 +186,14 @@ function setupModifiers()
 	createModifier("drunkSpeed", 1.0, "", -1, -1, 0.0, false);
 	createModifier("drunk", 0.0, "
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
-			(curPos*0.45)*0.013) * (drunkSpeed_value*0.2)) * 112*0.5 * drunk_value;
+			(curPos*0.45)*0.013) * (drunkSpeed_value*0.2)) * 112.0*0.5 * drunk_value;
 	");
 
 
 	createModifier("tipsySpeed", 1.0, "", -1, -1, 0.0, false);
 	createModifier("tipsy", 0.0, "
 		y += cos(songPosition*0.001 * (1.2) + 
-			(strumID)*(2.0) + tipsySpeed_value*(0.2) ) * 112*0.4 * tipsy_value;
+			(strumID)*(2.0) + tipsySpeed_value*(0.2) ) * 112.0*0.4 * tipsy_value;
 	");
 
 	createModifier("reverse", 0.0, "

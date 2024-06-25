@@ -204,22 +204,22 @@ function setupModifiers()
 
 	createModifier("drunk", 0.0, "
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
-			(curPos*0.45)*0.013) * (10.0*0.2)) * 112*0.5 * drunk_value;
+			(curPos*0.45)*0.013) * (10.0*0.2)) * 112.0*0.5 * drunk_value;
 	");
 
 	createModifier("drunkP1", 0.0, "
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
-			(curPos*0.45)*0.013) * (2.0*0.2)) * 112*0.5 * drunkP1_value;
+			(curPos*0.45)*0.013) * (2.0*0.2)) * 112.0*0.5 * drunkP1_value;
 	", 1);
 
 	createModifier("drunkP2", 0.0, "
 		x += cos(((songPosition*0.001) + (strumID*0.2) + 
-			(curPos*0.45)*0.013) * (2.0*0.2)) * 112*0.5 * drunkP2_value;
+			(curPos*0.45)*0.013) * (2.0*0.2)) * 112.0*0.5 * drunkP2_value;
 	", 0);
 
 	createModifier("tipsy", 0.0, "
 		y += cos(songPosition*0.001 * (1.2) + 
-			(strumID)*(2.0) + 2.0*(0.2) ) * 112*0.4 * tipsy_value;
+			(strumID)*(2.0) + 2.0*(0.2) ) * 112.0*0.4 * tipsy_value;
 	");
 
 	createModifier("reverseP1", 0.0, "
